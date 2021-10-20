@@ -4,11 +4,11 @@
 #'
 #' @details This function will take two integer values, x and k, and return the exponential of x to a sum of k terms
 #'
-#' @param number integer, values to be exponentiated and length of term
+#' @param x integer, value to be exponentiated
+#' @param k integer, number of terms to stop at
 #'
 #' @return Returns exponential of x to sum of k terms
 #'
-#' @import tidyverse
 #' @export
 #'
 #' @examples
@@ -57,14 +57,16 @@ sample_sd <- function(x) {
 #'
 #' @details This function will take a vector of length X and calculate the confidence interval of the mean of that vector. The alpha value is adjusted with the second term, which ranges from 0-1
 #'
-#' @param vector, vector of length X. number float, value between 0 and 1 that determines CI %
+#' @param x, vector of length X
+#' @param conf, number between 0-1 that determines confidence interval %.
 #'
 #' @return Returns vector of length 2, with the first term as the lower bound and 2nd term as the upper bound of the CI
 #'
-#' @import sample_mean, sample_sd, tidyverse
 #' @export
 #'
 #' @examples
+#' set.seed(1234)
+#' X <- rnorm(100)
 #' calculate_CI(X, 0.95) # X is a vector of length N, 0.95 is for a 95% CI
 #' calculate_CI(X, 0.9) # X is a vector of length N, 0.9 is for a 90% CI
 #'
