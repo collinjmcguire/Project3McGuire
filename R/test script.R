@@ -17,7 +17,7 @@ calculate_CI <- function(x, conf) {
     stop("Confidence interval values must be <1 and >0. For a 95% CI, use 0.95")
 
   } else if(is.na(x)) {
-    stop("The first term must be non-missing and numeric to calculate a confidence interval")
+    stop("The first term must be non-missing and a numeric vector to calculate a confidence interval")
 
   }
 
