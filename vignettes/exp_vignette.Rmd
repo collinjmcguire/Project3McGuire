@@ -1,8 +1,8 @@
 ---
-title: "Exponential Vignette"
+title: "Project3McGuire Package Vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Exponential Vignette}
+  %\VignetteIndexEntry{Project3McGuire Package Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,4 +16,52 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(Project3McGuire)
+```
+
+```{r First Part}
+# Taylor series approximation
+Exp(5,k=1)
+
+Exp(5,k=5)
+
+Exp(5,k=10)
+
+Exp(5,k=100)
+
+
+# compared to 
+exp(5)
+
+
+
+```
+
+
+```{r Second Part}
+library(here)
+library(tidyverse)
+
+# tests if a directory named "data" exists locally
+if(!dir.exists(here("data"))) { dir.create(here("data")) }
+
+# saves data only once (not each time you knit a R Markdown)
+if(!file.exists(here("data","chopped.RDS"))) {
+  url_tsv <- 'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-08-25/chopped.tsv'
+  chopped <- readr::read_tsv(url_tsv)
+  
+  # save the file to RDS objects
+  saveRDS(chopped, file= here("data","chopped.RDS"))
+}
+
+chopped <- readRDS(here("data","chopped.RDS"))
+as_tibble(chopped)
+
+chopped_no_missing <- chopped %>%
+  na.omit(episode_notes, episode_rating) 
+
+chopped_regex <- chopped_no_missing %>%
+  mutate(has_halloween_theme = grepl("alloween", episode_notes))
+
+ggplot
+
 ```
