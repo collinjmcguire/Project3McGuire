@@ -21,7 +21,8 @@ Calculate the confidence interval of the mean for a vector
 This function will take a vector of length X and calculate the confidence interval of the mean of that vector. The alpha value is adjusted with the second term, which ranges from 0-1
 }
 \examples{
-X <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+set.seed(1234)
+X <- rnorm(100)
 calculate_CI(X, 0.95) # X is a vector of length N, 0.95 is for a 95\% CI
 calculate_CI(X, 0.9) # X is a vector of length N, 0.9 is for a 90\% CI
 
