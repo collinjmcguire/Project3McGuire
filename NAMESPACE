@@ -2,3 +2,4 @@
 
 export(Exp)
 export(calculate_CI)
+importFrom(stats,qt)

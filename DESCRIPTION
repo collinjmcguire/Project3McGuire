@@ -7,6 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "cmcgui13@jhmi.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
+Imports: stats
 Description: What the package does (one paragraph).
 License: GPL (>=3)
 Encoding: UTF-8

@@ -62,6 +62,7 @@ sample_sd <- function(x) {
 #'
 #' @return Returns vector of length 2, with the first term as the lower bound and 2nd term as the upper bound of the CI
 #'
+#' @importFrom stats qt
 #' @export
 #'
 #' @examples
