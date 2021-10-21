@@ -1,5 +1,4 @@
 make_p3_class <- function(x = vector()) {
-  stopifnot(is.vector(x))
   structure(x, class = "p3_class")
 }
 

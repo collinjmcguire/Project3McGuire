@@ -2,37 +2,39 @@
 #'
 #' Constructs a P3 class
 #'
-#' @details This function will take two integer values, x and k, and return the exponential of x to a sum of k terms
+#' @details This function creates a class, p3_class, from an object passed into the function
 #'
-#' @param x integer, value to be exponentiated
-#' @param k integer, number of terms to stop at
+#' @param x, anything I think
 #'
-#' @return Returns exponential of x to sum of k terms
+#' @return Returns nothing
 #'
 #' @export
 #'
 #' @examples
 #' h <- rnrom(100)
-#' make_p3_class(h)
+#' p3 <- make_p3_class(h)
+#' class(p3)
 make_p3_class <- function() {
   structure(x, class = "p3_class")
 }
 
 #' P3 Class Print Method
 #'
-#' Constructs a P3 class
+#' Creates a print method for the p3_class
 #'
-#' @details This function will take two integer values, x and k, and return the exponential of x to a sum of k terms
+#' @details This function will create a print method for the p3_class, and then return the class name and number of observations.
 #'
-#' @param x integer, value to be exponentiated
-#' @param k integer, number of terms to stop at
+#' @param x, p3_class
 #'
-#' @return Returns exponential of x to sum of k terms
+#' @return Returns a phrase containing the class and number of observations
 #'
 #' @export
 #'
 #' @examples
-#'
+#' h <- rnrom(100)
+#' p3 <- make_p3_class(h)
+#' class(p3)
+#' print(p3)
 print.p3_class <- function(x) {
   cat("This object is of the",
       class(p3), "and has",
