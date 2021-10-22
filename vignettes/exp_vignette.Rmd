@@ -62,6 +62,16 @@ chopped_no_missing <- chopped %>%
 chopped_regex <- chopped_no_missing %>%
   mutate(has_halloween_theme = grepl("alloween", episode_notes))
 
-ggplot
+chopped_box <- ggplot(chopped_regex, aes(x = has_halloween_theme, y = episode_rating, fill = has_halloween_theme))
+
+chopped_box + geom_boxplot() + geom_jitter()
+  
+
+
 
 ```
+
+
+Write 2-3 sentences about whether higher rated.
+
+Looking at the two plots

@@ -1,14 +1,14 @@
 make_p3_class <- function(x) {
-  structure(x, class = "p3_class")
+  structure(list(obj = x), class = "p3_class")
 }
 
 print.p3_class <- function(x) {
   cat("This object is of the",
       class(p3), "and has",
-      length(x), "observations")
+      length(obj$x), "observations")
 }
 
-calculate_CI <- function(x = vector(), conf) {
+calculate_CI <- function(x, conf, S3 = TRUE) {
   stopifnot(is.vector(x))
   if(conf >= 1) {
     stop("Confidence interval values must be <1 and >0. For a 95% CI, use 0.95")
