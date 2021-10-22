@@ -112,7 +112,7 @@ calculate_CI <- function(x, conf) {
 #' p3 <- make_p3_class(h)
 #' class(p3)
 make_p3_class <- function(x) {
-  structure(list(obj = x), class = "p3_class")
+  structure(x, class = "p3_class")
 }
 
 #' P3 Class Print Method
