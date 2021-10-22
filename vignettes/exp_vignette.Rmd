@@ -71,14 +71,20 @@ halloween_p3_true <- chopped_regex %>%
 
 halloween_vec_true <- halloween_p3_true$episode_rating
 
-###h_v_t_p3 <- make_p3_class(halloween_vec_true)
+h_v_t_p3 <- make_p3_class(halloween_vec_true)
 
-calculate_CI(halloween_vec_true,0.90)
+class(h_v_t_p3)
+
+calculate_CI(h_v_t_p3,0.90)
 
 halloween_p3_false <- chopped_regex %>%
   filter(has_halloween_theme == FALSE)
 
-halloween_vec_false <- vhalloween_p3_false$episode_rating
+halloween_vec_false <- halloween_p3_false$episode_rating
+
+h_v_f_p3 <- make_p3_class(halloween_vec_false)
+
+calculate_CI(h_v_f_p3, 0.90)
 
 calculate_CI(halloween_vec_false, 0.9)
 
