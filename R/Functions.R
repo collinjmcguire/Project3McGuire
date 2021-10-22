@@ -111,8 +111,8 @@ calculate_CI <- function(x, conf) {
 #' h <- rnrom(100)
 #' p3 <- make_p3_class(h)
 #' class(p3)
-make_p3_class <- function() {
-  structure(x, class = "p3_class")
+make_p3_class <- function(x) {
+  structure(list(obj = x), class = "p3_class")
 }
 
 #' P3 Class Print Method
