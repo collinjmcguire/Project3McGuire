@@ -18,26 +18,38 @@ knitr::opts_chunk$set(
 library(Project3McGuire)
 ```
 
-```{r First Part}
-# Taylor series approximation
-Exp(5,k=1)
+```{r Demonstrate Exp Function, fig.width=8, fig.height=6}
+library(ggplot2)
+# The Exp Function approximates a Taylor series for a particular number, x, and the number of terms k.
+# The plot below shows the value returned by the function as the value of k increases.
+# This value eventually approaches the value given by the default function, exp.
 
-Exp(5,k=5)
+# First creates a numeric vector, and then fills the vector with the results of the loop
+exp_results <- numeric()
+for(i in 1:20) {
+  exp_results[[i]] <- Exp(10, i)
+}
 
-Exp(5,k=10)
+# Generates the x values for plotting
+number_of_terms <- 1:20
 
-Exp(5,k=100)
+# Creates a data frame from the vectors
+exp_graphing <- data.frame(exp_results, number_of_terms)
 
+# Plots the dataframe
+ggplot(exp_graphing, aes(x = number_of_terms, y = exp_results)) + 
+  geom_point() + 
+  geom_line(y = 22026.47) +
+  labs(title = "Value of the Exp Function at x = 10 and Varying Levels of K", subtitle = "The horizontal line in the image depicts the value of the base function exp(10), 22,026.47") +
+  xlab("Value of Parameter K") +
+  ylab("Value returned by Exp function") +
+  theme_bw()
 
-# compared to 
-exp(5)
-
-
-
+exp(10)
 ```
 
 
-```{r Second Part}
+```{r Load in Data}
 library(here)
 library(tidyverse)
 
@@ -52,45 +64,73 @@ if(!file.exists(here("data","chopped.RDS"))) {
   # save the file to RDS objects
   saveRDS(chopped, file= here("data","chopped.RDS"))
 }
-
+# Reads in the data downloaded earlier
 chopped <- readRDS(here("data","chopped.RDS"))
 as_tibble(chopped)
+```
 
+```{r Remove Missing, Search for Halloween}
+
+
+# Removes rows missing either episodes notes or ratings
 chopped_no_missing <- chopped %>%
   na.omit(episode_notes, episode_rating) 
 
+# Searches the episodes notes column for the phrase alloween, which should search for both upper and lowercase of Halloween
 chopped_regex <- chopped_no_missing %>%
   mutate(has_halloween_theme = grepl("alloween", episode_notes))
-
-chopped_box <- ggplot(chopped_regex, aes(x = has_halloween_theme, y = episode_rating, fill = has_halloween_theme))
-
-chopped_box + geom_boxplot() + geom_jitter()
-  
-halloween_p3_true <- chopped_regex %>%
-  filter(has_halloween_theme == TRUE)
-
-halloween_vec_true <- halloween_p3_true$episode_rating
-
-h_v_t_p3 <- make_p3_class(halloween_vec_true)
-
-class(h_v_t_p3)
-
-calculate_CI(h_v_t_p3,0.90)
-
-halloween_p3_false <- chopped_regex %>%
-  filter(has_halloween_theme == FALSE)
-
-halloween_vec_false <- halloween_p3_false$episode_rating
-
-h_v_f_p3 <- make_p3_class(halloween_vec_false)
-
-calculate_CI(h_v_f_p3, 0.90)
-
-calculate_CI(halloween_vec_false, 0.9)
-
 ```
 
+```{r Create Box Plot, fig.width=8,fig.height=6}
+# Creates the base 
+chopped_box <- ggplot(chopped_regex, aes(x = has_halloween_theme, y = episode_rating, fill = has_halloween_theme))
 
-Write 2-3 sentences about whether higher rated.
+# Generates the rest of the graph
+chopped_box + 
+  geom_boxplot() + 
+  geom_jitter() +
+  labs(title = "Boxplot of 'Chopped' Episode Ratings Comparing Halloween Episodes to non-Halloween Episodes",
+       subtitle = "Halloween Episodes N = 7, Non-Halloween Episodes N = 345", fill = "Halloween Theme", caption = "Collin McGuire") +
+  xlab("Halloween Theme T/F") +
+  ylab("Episode Rating (Scale 0-10)") +
+  scale_x_discrete(breaks=c("FALSE", "TRUE"),
+                   labels=c("Not Halloween", "Halloween")) +
+  scale_fill_discrete(labels = c("Not Halloween", "Halloween"))
+```
 
-Looking at the two plots
+Looking at the two plots, Halloween episodes have an almost identical median rating as non-Halloween episodes, although the IQR for the Halloween episodes is much larger in a negative manner than that of the non-Halloween Episodes. 
+
+```{r 90% CI for Halloween/Not Halloween Episdoe Ratings}
+# Limits the dataset to only episodes with a halloween theme
+halloween_true <- chopped_regex %>%
+  filter(has_halloween_theme == TRUE)
+
+# Creates a vector from the episode rating column
+halloween_vec <- halloween_true$episode_rating
+
+# Makes the vector p3_class
+halloween_p3 <- make_p3_class(halloween_vec)
+
+# Double check that the vector is of the p3 class
+class(halloween_p3)
+
+# Calculate the CI for the mean of the vector
+calculate_CI(halloween_p3,0.90, S3 = TRUE)
+
+# Limits the dataset to only those episodes without a halloween theme
+halloween_false <- chopped_regex %>%
+  filter(has_halloween_theme == FALSE)
+
+# Creates a vector from the episode rating column
+not_halloween_vec <- halloween_false$episode_rating
+
+# Makes the vector p3_class
+not_halloween_p3 <- make_p3_class(not_halloween_vec)
+
+# Double checks the vector is p3_class
+class(not_halloween_p3)
+
+# Calculate the CI for the mean of the vector
+calculate_CI(not_halloween_p3, 0.90, S3 = TRUE)
+```
+

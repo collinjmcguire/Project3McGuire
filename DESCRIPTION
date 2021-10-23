@@ -8,7 +8,7 @@ Authors@R:
            email = "cmcgui13@jhmi.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Imports: stats
-Description: What the package does (one paragraph).
+Description: This package contains a handful of useful functions that were created as part of the Statistical Computing course at Johns Hopkins Bloomberg School of Public Health. Included in this package are functions that calculate the exponential of a number, the confidence interval of a list/vector, and a S3 constructor and print function. The attached vignette demonstrates how to use each of these functions with an example.
 License: GPL (>=3)
 Encoding: UTF-8
 LazyData: true
@@ -16,5 +16,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
-    knitr
+    knitr,
+    here,
+    ggplot2,
+    tidyverse,
+    readr
 VignetteBuilder: knitr

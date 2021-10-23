@@ -4,12 +4,14 @@
 \alias{calculate_CI}
 \title{Calculate Confidence Interval}
 \usage{
-calculate_CI(x, conf)
+calculate_CI(x, conf = 0.95, S3 = TRUE)
 }
 \arguments{
 \item{x, }{vector of length X}
 
 \item{conf, }{number between 0-1 that determines confidence interval \%.}
+
+\item{S3, }{True or False, if the x parameter is an S3 class or not}
 }
 \value{
 Returns vector of length 2, with the first term as the lower bound and 2nd term as the upper bound of the CI
@@ -23,7 +25,9 @@ This function will take a vector of length X and calculate the confidence interv
 \examples{
 set.seed(1234)
 X <- rnorm(100)
-calculate_CI(X, 0.95) # X is a vector of length N, 0.95 is for a 95\% CI
-calculate_CI(X, 0.9) # X is a vector of length N, 0.9 is for a 90\% CI
+calculate_CI(X, 0.95, S3 = FALSE) # X is a vector of length N, 0.95 is for a 95\% CI
+calculate_CI(X, 0.9, S3 = FALSE) # X is a vector of length N, 0.9 is for a 90\% CI
+p3 <- make_p3_class(X)
+calculate_CI(p3, 0.95, S3 = TRUE)
 
 }

@@ -59,6 +59,7 @@ sample_sd <- function(x) {
 #'
 #' @param x, vector of length X
 #' @param conf, number between 0-1 that determines confidence interval %.
+#' @param S3, True or False, if the x parameter is an S3 class or not
 #'
 #' @return Returns vector of length 2, with the first term as the lower bound and 2nd term as the upper bound of the CI
 #'
@@ -68,10 +69,12 @@ sample_sd <- function(x) {
 #' @examples
 #' set.seed(1234)
 #' X <- rnorm(100)
-#' calculate_CI(X, 0.95) # X is a vector of length N, 0.95 is for a 95% CI
-#' calculate_CI(X, 0.9) # X is a vector of length N, 0.9 is for a 90% CI
+#' calculate_CI(X, 0.95, S3 = FALSE) # X is a vector of length N, 0.95 is for a 95% CI
+#' calculate_CI(X, 0.9, S3 = FALSE) # X is a vector of length N, 0.9 is for a 90% CI
+#' p3 <- make_p3_class(X)
+#' calculate_CI(p3, 0.95, S3 = TRUE)
 #'
-calculate_CI <- function(x, conf) {
+calculate_CI <- function(x, conf = 0.95, S3 = TRUE) {
 
   if(conf >= 1) {
     stop("Confidence interval values must be <1 and >0. For a 95% CI, use 0.95")
@@ -79,40 +82,56 @@ calculate_CI <- function(x, conf) {
   } else if(conf <= 0) {
     stop("Confidence interval values must be <1 and >0. For a 95% CI, use 0.95")
 
+  } else if(S3 == TRUE) {
+
+
+    alpha = 1 - conf
+    N <- length(x$obj)
+    dof <- length(x$obj)-1
+    t_score = qt(p=alpha/2, df = dof, lower.tail = FALSE)
+    std_error <- sample_sd(x$obj)/sqrt(N)
+
+    lower <- sample_mean(x$obj) - t_score*std_error
+    upper <- sample_mean(x$obj) + t_score*std_error
+
+    answer_s3 <- c(lower, upper)
+    return(answer_s3)
+
+  } else if(S3 == FALSE) {
+
+    alpha = 1 - conf
+    N <- length(x)
+    dof <- length(x)-1
+    t_score = qt(p=alpha/2, df = dof, lower.tail = FALSE)
+    std_error <- sample_sd(x)/sqrt(N)
+
+    lower <- sample_mean(x) - t_score*std_error
+    upper <- sample_mean(x) + t_score*std_error
+
+    answer <- c(lower, upper)
+    return(answer)
+
   }
-
-
-  alpha = 1 - conf
-  N <- length(x)
-  dof <- length(x)-1
-  t_score = qt(p=alpha/2, df = dof, lower.tail = FALSE)
-  std_error <- sample_sd(x)/sqrt(N)
-
-  lower <- sample_mean(x) - t_score*std_error
-  upper <- sample_mean(x) + t_score*std_error
-
-  answer <- c(lower, upper)
-  return(answer)
 }
 
 #' P3 Class Constructor Function
 #'
 #' Constructs a P3 class
 #'
-#' @details This function creates a class, p3_class, from an object passed into the function
+#' @details This function creates a class, p3_class, from an object passed into the function, and turns it into a list
 #'
-#' @param x, anything I think
+#' @param x, A list or vector.
 #'
 #' @return Returns nothing
 #'
 #' @export
 #'
 #' @examples
-#' h <- rnrom(100)
+#' h <- rnorm(100)
 #' p3 <- make_p3_class(h)
 #' class(p3)
 make_p3_class <- function(x) {
-  structure(x, class = "p3_class")
+  structure(list(obj = x), class = "p3_class")
 }
 
 #' P3 Class Print Method
@@ -122,18 +141,20 @@ make_p3_class <- function(x) {
 #' @details This function will create a print method for the p3_class, and then return the class name and number of observations.
 #'
 #' @param x, p3_class
+#' @param ..., Can use to pass arguments to the print function
 #'
 #' @return Returns a phrase containing the class and number of observations
 #'
 #' @export
 #'
 #' @examples
-#' h <- rnrom(100)
+#' h <- rnorm(100)
 #' p3 <- make_p3_class(h)
 #' class(p3)
 #' print(p3)
-print.p3_class <- function(x) {
+print.p3_class <- function(x, ...) {
   cat("This object is of the",
-      class(p3), "and has",
+      class(x), "and has",
       length(x), "observations")
+  invisible(x)
 }
